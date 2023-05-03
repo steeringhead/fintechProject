@@ -14,17 +14,14 @@ export default function Login() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // retrieve login data from session storage on component mount
         const storedData = sessionStorage.getItem("loginData");
         const initialData = storedData ? JSON.parse(storedData) : {};
         setLoginData(initialData);
 
-        // remove login data from session storage on browser window/tab close
         window.addEventListener("beforeunload", () => {
             sessionStorage.removeItem("loginData");
         });
 
-        // clean up the event listener when the component unmounts
         return () => {
             window.removeEventListener("beforeunload", () => {
                 sessionStorage.removeItem("loginData");
