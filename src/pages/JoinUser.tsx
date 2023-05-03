@@ -1,6 +1,7 @@
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore/lite";
 import { db } from "../Firebase";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 // User정보 타입 지정
 type User = {
@@ -24,6 +25,27 @@ export default function JoinUser() {
     const [formData, setFormData] = useState<FormData>({});
     const [checkPW, setCheckPW] = useState<boolean>(false);
     const [checkEmail, setCheckEmail] = useState<boolean>(false);
+    const { search } = useLocation();
+    const queryData = new URLSearchParams(search);
+    const str = queryData.get("str") || "";
+
+    useEffect(() => {
+        console.log(str)
+        const idInput = document.getElementById("idInput") as HTMLInputElement;
+        console.log(idInput)
+        const emailInput = document.getElementById(
+            "emailInput"
+        ) as HTMLInputElement;
+
+        if (idInput) {
+            idInput.value = str;
+        }
+
+        if (emailInput) {
+            emailInput.value = str;
+        }
+    }, [str]);
+    
     
    
     //회원가입 form에 입력하는 데이터를 formData에 저장
@@ -88,7 +110,8 @@ export default function JoinUser() {
                     <div className="idDiv flex mb-5 items-center">
                         <label className="w-32 block">아이디 :</label>
                         <input
-                            className="id bg-gray-300 mr-5 rounded-md w-2/5 h-10"
+                            id="idInput"
+                            className="idInput bg-gray-300 mr-5 rounded-md w-2/5 h-10"
                             placeholder="ID입력"
                             onChange={handleChange}
                             name="ID"
@@ -105,7 +128,7 @@ export default function JoinUser() {
                     <div className="pwDiv flex mb-5 items-center">
                         <label className="w-32 block">패스워드 :</label>
                         <input
-                            className="id bg-gray-300 rounded-md w-2/5 h-10"
+                            className="pwInput bg-gray-300 rounded-md w-2/5 h-10"
                             placeholder="패스워드"
                             onChange={handleChange}
                             name="password"
@@ -115,7 +138,7 @@ export default function JoinUser() {
                     <div className="pw2Div flex mb-5 items-center">
                         <label className="w-32 block">패스워드 확인 :</label>
                         <input
-                            className="id bg-gray-300 rounded-md w-2/5 h-10"
+                            className="pwInput2 bg-gray-300 rounded-md w-2/5 h-10"
                             placeholder="패스워드 확인"
                             onChange={handleChange}
                             name="confirmPassword"
@@ -129,20 +152,21 @@ export default function JoinUser() {
                             패스워드가 일치하지 않습니다 !
                         </div>
                     </div>
-                    <div className="pw2Div flex mb-5 items-center">
+                    <div className="hpDIv flex mb-5 items-center">
                         <label className="w-32 block">휴대폰 번호 :</label>
                         <input
-                            className="id bg-gray-300 rounded-md w-2/5 h-10"
+                            className="hpInput bg-gray-300 rounded-md w-2/5 h-10"
                             placeholder="휴대폰 번호"
                             onChange={handleChange}
                             name="phone"
                             value={formData.phone}
                         />
                     </div>
-                    <div className="pw2Div flex mb-5 items-center">
+                    <div className="emailDiv flex mb-5 items-center">
                         <label className="w-32 block">이메일 주소 :</label>
                         <input
-                            className="id bg-gray-300 rounded-md w-2/5 h-10"
+                            id="emailInput"
+                            className="emailInput bg-gray-300 rounded-md w-2/5 h-10"
                             placeholder="이메일 주소"
                             onChange={handleChange}
                             name="email"
