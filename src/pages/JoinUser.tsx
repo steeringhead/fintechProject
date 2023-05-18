@@ -21,7 +21,7 @@ type FormData = {
 };
 
 export default function JoinUser() {
-    const userRef = collection(db, 'user')
+    const userRef = collection(db, 'user');
     const [formData, setFormData] = useState<FormData>({});
     const [checkPW, setCheckPW] = useState<boolean>(false);
     const [checkEmail, setCheckEmail] = useState<boolean>(false);
@@ -58,6 +58,8 @@ export default function JoinUser() {
         e.preventDefault();
 
         const emailRef = query(userRef, where("email", "==", formData.email))
+        if (emailRef === null) return;
+        
         getDocs(emailRef).then((queryEmail) => {
             if (queryEmail.size > 0) {
                 setCheckEmail(true);
