@@ -30,9 +30,7 @@ export default function JoinUser() {
     const str = queryData.get("str") || "";
 
     useEffect(() => {
-        console.log(str)
-        const idInput = document.getElementById("idInput") as HTMLInputElement;
-        console.log(idInput)
+        const idInput = document.getElementById("idInput") as HTMLInputElement;        
         const emailInput = document.getElementById(
             "emailInput"
         ) as HTMLInputElement;
