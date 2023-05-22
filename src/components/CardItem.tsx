@@ -10,17 +10,22 @@ interface CardData {
     enterprise: string;
 }
 
-export default function CardItem() {
+interface infoList{
+    info: string;
+}
+
+export default function CardItem({info}: infoList) {
     const [cardArr, setCardArr] = useState<CardData[]>([]);
-    const cardData = collection(db, 'cardInfo');    
+    const cardData = collection(db, 'cardInfo');
     
 
     useEffect(() => {
+        console.log(info)
         const fetchData = async () => {
             try {
                 const q = query(
                     collection(db, "cardInfo"),
-                    where("category", "==", "TOP 10")
+                    where("category", "==", info)
                 );
                 const querySnapshot = await getDocs(q);
                 const data = querySnapshot.docs.map((doc) => doc.data() as CardData);  
@@ -34,7 +39,7 @@ export default function CardItem() {
         }
 
         fetchData();
-    }, [])
+    }, [info])
     
     return (
         <div className="max-w-[1280px]">

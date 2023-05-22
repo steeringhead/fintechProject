@@ -3,11 +3,12 @@ import { atom, useRecoilState } from "recoil";
 interface items{
     items: string[];
     tag: string;
+    
 }
 
 export const selectedAtom = atom({
     key: "selectedItem",
-    default: "",
+    default: "TOP 10",
 });
 
 export default function PageHeader({ items, tag }: items) {    
