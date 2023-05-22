@@ -1,8 +1,16 @@
 import CardItem from "../components/CardItem";
 import PageHeader from "../components/PageHeader"
+import { useRecoilValue } from "recoil";
+import { selectedAtom } from "../components/PageHeader";
+
+
 
 export default function AppMain() {
-    const items = ["TOP 10", "쇼핑", "포인트", "교통", "외식"];
+    const items = ["TOP 10", "마일리지", "포인트", "할인", "체크카드"];
+    const sI = useRecoilValue(selectedAtom);
+
+    
+
 
     return (
         <>
