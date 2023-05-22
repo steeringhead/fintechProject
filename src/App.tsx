@@ -10,12 +10,14 @@ function App() {
 
     return (
         <BrowserRouter>
+            <RecoilRoot>
                 <Routes>
                     <Route path="/" element={<Main></Main>} />
                     <Route path="/joinUser" element={<JoinUser></JoinUser>} />
                     <Route path="/login" element={<Login></Login>} />
                     <Route path="/main" element={<AppMain></AppMain>} />
                 </Routes>
+            </RecoilRoot>
         </BrowserRouter>
     );
 }
