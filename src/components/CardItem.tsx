@@ -33,7 +33,7 @@ export default function CardItem({info}: infoList) {
                 setCardArr(data);
                 console.log(cardArr);
             } catch (error) {
-                console.log("Error", error);
+                console.log("Error", error)
             }
 
         }

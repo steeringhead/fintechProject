@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { atom, useRecoilState } from "recoil";
 
 interface items{
@@ -31,9 +32,11 @@ export default function PageHeader({ items, tag }: items) {
                     </li>
                 ))}
             </ul>
-            <div className="mr-[100px] font-bold hover:bg-indigo-300">
-                {tag}
-            </div>
+            <Link to={"/bankMain"}>
+                <div className="mr-[100px] font-bold hover:bg-indigo-300 text-black">
+                    {tag}
+                </div>
+            </Link>
         </div>
     );
 }   

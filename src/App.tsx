@@ -5,6 +5,7 @@ import JoinUser from './pages/JoinUser'
 import Login from './pages/Login'
 import AppMain from './pages/AppMain'
 import { RecoilRoot,atom,selector,useRecoilState,useRecoilValue } from 'recoil'
+import BankMain from './pages/BankMain'
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
                     <Route path="/joinUser" element={<JoinUser></JoinUser>} />
                     <Route path="/login" element={<Login></Login>} />
                     <Route path="/main" element={<AppMain></AppMain>} />
+                    <Route path="/bankMain" element={<BankMain></BankMain>} />
                 </Routes>
             </RecoilRoot>
         </BrowserRouter>
