@@ -103,7 +103,7 @@ export default function JoinUser() {
     }    
     
     return (
-        <>
+        <div className="p-10">
             <h1 className="mb-10">회원 가입</h1>
             <div className="form container">
                 <form onSubmit={handleSubmit}>
@@ -188,6 +188,6 @@ export default function JoinUser() {
                     </button>
                 </form>
             </div>
-        </>
+        </div>
     );
 }

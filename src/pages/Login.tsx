@@ -13,22 +13,6 @@ export default function Login() {
     const userRef = collection(db, 'user')
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const storedData = sessionStorage.getItem("loginData");
-        const initialData = storedData ? JSON.parse(storedData) : {};
-        setLoginData(initialData);
-
-        window.addEventListener("beforeunload", () => {
-            sessionStorage.removeItem("loginData");
-        });
-
-        return () => {
-            window.removeEventListener("beforeunload", () => {
-                sessionStorage.removeItem("loginData");
-            });
-        };
-    }, []);
-
     //입력하는 아이디와 비밀번호를 loginData라는 state값에 저장
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
         setLoginData({ ...loginData, [e.target.name]: e.target.value })
@@ -44,6 +28,10 @@ export default function Login() {
         if (!userQuerySnapshot.empty) {
             const userDoc = userQuerySnapshot.docs[0];
             const userData = userDoc.data();
+
+            if (userData.password == null) {
+                return;
+            }
 
             if (userData.password === loginData.password) {  
                 sessionStorage.setItem("loginData", JSON.stringify(loginData));
