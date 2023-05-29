@@ -44,7 +44,7 @@ export default function CardItem({info}: infoList) {
     return (
         <div className="max-w-[1280px]">
             {cardArr.map((data, index) => (
-                <div className="max-w-[1280px] mt-[20px]  flex items-center bg-indigo-200 p-8">
+                <div className="max-w-[1280px] flex items-center bg-emerald-200 p-8">
                     <div className="ml-[30px] mr-[50px] font-bold text-[30px]">{index + 1}</div>
                     <img className="w-52 h-52 mr-[50px]" src={data.url} />
                     <div>

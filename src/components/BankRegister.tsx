@@ -2,7 +2,7 @@
 //만약 로그인 되어있다면 아이디를 저장한 후. 그 ID와 함께 계좌 개설 정보를 Firestore데이터로 저장한다.
 
 
-import { addDoc, collection } from "firebase/firestore/lite";
+import { addDoc, collection, query, where, getDocs, DocumentData } from "firebase/firestore/lite";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { db } from "../Firebase";
 
@@ -17,7 +17,7 @@ interface formData{
 export default function BankRegister() {
     const [btn, setBtn] = useState(false);
     const [id, setId] = useState("");
-    const [acList, setAcList] = useState([]);
+    const [acList, setAcList] = useState<DocumentData[]>([]);
     const [formData, setFormData] = useState<formData>({
         accountNum: "",
         bankName: "",
@@ -32,11 +32,18 @@ export default function BankRegister() {
         if (sessionStorage.getItem("loginData")) {            
             setBtn(true);            
         }
+
         else {
             setBtn(false)
-        }        
-        console.log(sessionStorage.getItem("loginData"));
-    },[])
+        }   
+
+        const temp = sessionStorage.getItem("loginData");
+        const tempData = (temp === null) ? "" : JSON.parse(temp as string);
+        setId(tempData.ID);
+        fetchData();
+        console.log(sessionStorage.getItem("loginData"));    
+        console.log(id)
+    },[id,acList])
 
     function handleChange(e : ChangeEvent<HTMLInputElement>) {
         setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -47,23 +54,29 @@ export default function BankRegister() {
         
         if (formData.accountNum === null || formData.bankName === null || formData.ownerName === null) return;
         else {
-            const temp = sessionStorage.getItem("loginData");
-            const tempData = JSON.parse(temp as string);
-            setId(tempData.ID);
-            setFormData({ ...formData, userId: id })
-            console.log(formData);
-            addDoc(accountRef, formData as formData);
-
+                        
+            const updateFormData = { ...formData, userId: id , "잔액" : "0"};            
+            addDoc(accountRef, updateFormData as formData);
             setFormData({ accountNum: "", bankName: "", ownerName: "", userId: id });
-        }
+            setAcList([]);
+        }        
+    }
+
+    async function fetchData() {   
+        const q = query(accountRef, where("userId", "==", id));
+        const querySnapshot = await getDocs(q);
+        const documents = querySnapshot.docs.map((doc) => doc.data());
+        if (documents.length == acList.length) return;
+        setAcList(documents);
+        console.log(acList);
     }
 
     return (
-        <div className="bg-sky-200 p-10">
-            <form onSubmit={handleSubmit}>
-                <div className="font-bold mb-[20px]">계좌 정보 입력하기</div>
+        <div className="bg-emerald-200">
+            <form onSubmit={handleSubmit} className="p-8 font-bold text-[20px]">
+                <div className="mb-[20px]">계좌 정보 입력하기</div>
                 <div className="idDIv flex mb-8 items-center">
-                    <label className="w-24 block text-center mr-[10px]">
+                    <label className="w-30 block text-center mr-[10px]">
                         계좌 번호 :
                     </label>
                     <input
@@ -99,12 +112,21 @@ export default function BankRegister() {
                     />
                 </div>
                 <button
-                    className="bg-sky-300 hover:bg-sky-200 ml-[600px]"
+                    className="bg-emerald-300 hover:bg-emerald-100 ml-[600px]"
                     type="submit"
                 >
                     {btn ? "등록" : "로그인 필요"}
                 </button>
             </form>
+            <div className="acList text-[20px]">
+                {acList.map((item) => (
+                    <div className="p-8">
+                        <div className="mb-[10px]">은행명 : {item.bankName}</div>
+                        <div className="mb-[10px]">계좌번호 : {item.accountNum}</div>
+                        <div className="mb-[10px]">예금주 : {item.ownerName}</div>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }
