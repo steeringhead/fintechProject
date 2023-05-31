@@ -23,10 +23,14 @@ export default function PageHeader({ items, tag }: items) {
             return;
         }
 
+        if (item === "계좌 등록") {
+            navigate('/bankMain');
+            return;
+        }
+
         if (            
             item === "거래 내역" ||
-            item === "지출 차트" ||
-            item === "계좌 등록"
+            item === "지출 차트" 
         )
             return;
         setSelectedItem(item);

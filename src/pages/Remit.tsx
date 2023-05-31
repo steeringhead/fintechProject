@@ -5,11 +5,14 @@
 
 import { useState, useEffect } from "react";
 import { db } from "../Firebase";
-import { collection, getDocs, query, where , DocumentData } from "firebase/firestore/lite";
+import { collection, getDocs, query, where, DocumentData } from "firebase/firestore/lite";
+import PageHeader from "../components/PageHeader";
+
 
 export default function Remit() {   
     const [list, setList] = useState<DocumentData>([]);
     const accountData = collection(db, 'account');
+    const item = ["계좌 등록", "송금", "거래 내역", "지출 차트"];
     
     useEffect(() => {
         fetchData();
@@ -27,5 +30,24 @@ export default function Remit() {
         setList(documents);
         console.log(list);
     }
-   
+
+    return (
+        <>
+            <PageHeader items={item} tag={"신용카드 추천 화면"}></PageHeader>
+            <div className=" bg-emerald-200">
+                {list.map((item: DocumentData) => (
+                    <div className="ml-[100px] mb-[10px] flex w-6/12 font-bold text-2xl border-4 border-green-400 p-8">
+                        <div className="w-6/12">
+                            <div className="mb-[20px] mt-[10px]">{item.bankName}</div>
+                            <div className="mb-[20px]">{item.accountNum}</div>
+                        </div>
+                        <button className="btn btn-primary mt-[20px] ml-[80px]">
+                            송금
+                        </button>
+                    </div>
+                ))}
+            </div>
+        </>
+    );
+
 }
